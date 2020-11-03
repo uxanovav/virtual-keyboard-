@@ -4,8 +4,12 @@ const firstLine = document.querySelector('.first-line');
 const secondLine = document.querySelector('.second-line');
 const thirdLine = document.querySelector('.third-line');
 const fourLine = document.querySelector('.four-line');
+document.onkeydown = handle;
 
-
+function handle(e) {
+    inputArea.focus();
+    inputArea.value += e.key;
+}
 let keyboardFlag = false;
 
 const arr1 = [96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61];
@@ -46,7 +50,7 @@ init();
 const button = document.querySelectorAll('.key');
 console.log(button);
 
-inputArea.addEventListener('focus', showKeyboard);
+inputArea.addEventListener('dblclick', showKeyboard);
 
 document.onkeypress = function (event) {
     let active = document.querySelector('.keyboard .key[data = "' + event.charCode + '"]');
@@ -73,8 +77,8 @@ function showKeyboard() {
 for (let i = 0; i < button.length; i++){
     let pressBtn = button[i];
     pressBtn.addEventListener('click', function (e) {
-        console.log(pressBtn.innerHTML);
-        inputArea.innerHTML += pressBtn.innerHTML;
+        inputArea.value += pressBtn.innerHTML;
+        inputArea.focus();
     })
 }
 
