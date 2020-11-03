@@ -66,3 +66,16 @@
 .active {
   background-color: rgb(129, 91, 91);
 }
+
+.caps {
+    width: 120px;
+    font-size: 18px;
+}
+
+.caps-icon {
+    color: gray;
+}
+
+.on {
+    color: green;
+}

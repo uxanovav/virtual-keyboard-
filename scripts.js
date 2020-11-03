@@ -6,6 +6,11 @@ const thirdLine = document.querySelector('.third-line');
 const fourLine = document.querySelector('.four-line');
 document.onkeydown = handle;
 
+
+let capsFlag = false;
+let keyboardFlag = false;
+
+
 function handle(e) {
     console.log(e.key);
     if (e.key === 'Backspace') {
@@ -13,9 +18,22 @@ function handle(e) {
         active.classList.add('active')
         setTimeout(changeColor, 100, active);
     }
+    if (e.key === 'CapsLock') {
+        let active = document.querySelector('.keyboard .key[data-key = "caps"]');
+        if (capsFlag === false) {
+            capsIcon.classList.add('on');
+            active.classList.add('active')
+            setTimeout(changeColor, 100, active);
+            capsFlag = true;
+        } else {
+            capsIcon.classList.remove('on');
+            active.classList.add('active')
+            setTimeout(changeColor, 100, active);
+            capsFlag = false;
+        }
+    }
     inputArea.focus();
 }
-let keyboardFlag = false;
 
 const arr1 = [96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61];
 const arr2 = [113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 92];
@@ -27,7 +45,6 @@ function init() {
     let line2 = '';
     let line3 = '';
     let line4 = '';
-
     for (let i = 0; i < arr1.length; i++) {
         line1 += `<div class = "key" data = "` + arr1[i] + `">` + String.fromCharCode(arr1[i]) + `</div>`;
     }
@@ -41,7 +58,7 @@ function init() {
     for (let i = 0; i < arr3.length; i++) {
         line3 += `<div class = "key" data = "` + arr3[i] + `">` + String.fromCharCode(arr3[i]) + `</div>`;
     }
-    thirdLine.innerHTML = line3;
+    thirdLine.innerHTML = `<div class = "key caps" data-key = "caps">Caps Lock <span class='caps-icon'>▲</span></div>` + line3;
 
     for (let i = 0; i < arr4.length; i++) {
         line4 += `<div class = "key" data = "` + arr4[i] + `">` + String.fromCharCode(arr4[i]) + `</div>`;
@@ -51,8 +68,8 @@ function init() {
 
 init();
 
-
-const button = document.querySelectorAll('.key');
+let button = document.querySelectorAll('.key');
+const capsIcon = document.querySelector('.keyboard .key .caps-icon');
 console.log(button);
 
 inputArea.addEventListener('dblclick', showKeyboard);
@@ -83,7 +100,16 @@ button.forEach(btn => {
     btn.addEventListener('click', () => {
         if (btn.dataset.key == "bckspc") {
             let value = inputArea.value;
-            inputArea.value = value.substring(0,value.length - 1);
+            inputArea.value = value.substring(0, value.length - 1);
+        } else if (btn.dataset.key == "caps") {
+            console.log('oncaps press')
+            if (capsFlag == false) {
+                capsIcon.classList.add('on');
+                capsFlag = true;
+            } else {
+                capsIcon.classList.remove('on');
+                capsFlag = false;
+            }
         } else {
             inputArea.value += btn.innerHTML;
             inputArea.focus();
