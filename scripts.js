@@ -7,8 +7,13 @@ const fourLine = document.querySelector('.four-line');
 document.onkeydown = handle;
 
 function handle(e) {
+    console.log(e.key);
+    if (e.key === 'Backspace') {
+        let active = document.querySelector('.keyboard .key[data-key = "bckspc"]');
+        active.classList.add('active')
+        setTimeout(changeColor, 100, active);
+    }
     inputArea.focus();
-    inputArea.value += e.key;
 }
 let keyboardFlag = false;
 
@@ -26,7 +31,7 @@ function init() {
     for (let i = 0; i < arr1.length; i++) {
         line1 += `<div class = "key" data = "` + arr1[i] + `">` + String.fromCharCode(arr1[i]) + `</div>`;
     }
-    firstLine.innerHTML = line1;
+    firstLine.innerHTML = line1 + `<div class = "key" data-key = "bckspc">⇦</div>`;
 
     for (let i = 0; i < arr2.length; i++) {
         line2 += `<div class = "key" data = "` + arr2[i] + `">` + String.fromCharCode(arr2[i]) + `</div>`;
@@ -74,13 +79,17 @@ function showKeyboard() {
     }
 }
 
-for (let i = 0; i < button.length; i++){
-    let pressBtn = button[i];
-    pressBtn.addEventListener('click', function (e) {
-        inputArea.value += pressBtn.innerHTML;
-        inputArea.focus();
+button.forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (btn.dataset.key == "bckspc") {
+            let value = inputArea.value;
+            inputArea.value = value.substring(0,value.length - 1);
+        } else {
+            inputArea.value += btn.innerHTML;
+            inputArea.focus();
+        }
     })
-}
+});
 
 
 
