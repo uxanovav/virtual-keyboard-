@@ -1,5 +1,5 @@
 const inputArea = document.querySelector('#main-text-area');
-const keyboard = document.querySelector('.keyboard');
+const keyboard = document.querySelector('.wrapper .keyboard');
 const firstLine = document.querySelector('.first-line');
 const secondLine = document.querySelector('.second-line');
 const thirdLine = document.querySelector('.third-line');
@@ -12,10 +12,17 @@ let keyboardFlag = false;
 inputArea.addEventListener('focus', showKeyboard);
 
 document.onkeypress = function (event) {
-
+    console.log(event.charCode);
+    let active = document.querySelector('.keyboard .key[data = "' + event.charCode + '"]');
+    active.classList.add('active')
+    setTimeout(changeColor, 100, active);
 }
 
-function showKeyboard(){
+function changeColor(elemet) {
+    elemet.classList.remove('active');
+}
+
+function showKeyboard() {
     if (keyboardFlag === false) {
         keyboard.style.height = '50%';
         keyboard.style.display = 'block';
@@ -39,22 +46,22 @@ function init() {
     let line4 = '';
 
     for (let i = 0; i < arr1.length; i++) {
-        line1 += `<div class = "key" data = "`+String.fromCharCode(arr1[i])+`">`+ String.fromCharCode(arr1[i])+`</div>`;
+        line1 += `<div class = "key" data = "` + arr1[i] + `">` + String.fromCharCode(arr1[i]) + `</div>`;
     }
     firstLine.innerHTML = line1;
 
     for (let i = 0; i < arr2.length; i++) {
-        line2 += `<div class = "key" data = "`+String.fromCharCode(arr2[i])+`">`+ String.fromCharCode(arr2[i])+`</div>`;
+        line2 += `<div class = "key" data = "` + arr2[i] + `">` + String.fromCharCode(arr2[i]) + `</div>`;
     }
     secondLine.innerHTML = line2;
 
     for (let i = 0; i < arr3.length; i++) {
-        line3 += `<div class = "key" data = "`+String.fromCharCode(arr3[i])+`">`+ String.fromCharCode(arr3[i])+`</div>`;
+        line3 += `<div class = "key" data = "` + arr3[i] + `">` + String.fromCharCode(arr3[i]) + `</div>`;
     }
     thirdLine.innerHTML = line3;
 
     for (let i = 0; i < arr4.length; i++) {
-        line4 += `<div class = "key" data = "`+String.fromCharCode(arr4[i])+`">`+ String.fromCharCode(arr4[i])+`</div>`;
+        line4 += `<div class = "key" data = "` + arr4[i] + `">` + String.fromCharCode(arr4[i]) + `</div>`;
     }
     fourLine.innerHTML = line4;
 }
