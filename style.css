@@ -58,6 +58,10 @@
   float: left;
 }
 
+.key:active {
+  background-color: rgb(129, 91, 91);
+}
+
 .active {
-    background-color: rgb(129, 91, 91);
+  background-color: rgb(129, 91, 91);
 }
