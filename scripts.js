@@ -10,8 +10,10 @@ const fourLine = document.querySelector('.four-line');
 let keyboardFlag = false;
 
 inputArea.addEventListener('focus', showKeyboard);
-inputArea.addEventListener('blur', showKeyboard);
 
+document.onkeypress = function (event) {
+
+}
 
 function showKeyboard(){
     if (keyboardFlag === false) {
@@ -37,22 +39,22 @@ function init() {
     let line4 = '';
 
     for (let i = 0; i < arr1.length; i++) {
-        line1 += `<div class = "key">`+ String.fromCharCode(arr1[i])+`</div>`;
+        line1 += `<div class = "key" data = "`+String.fromCharCode(arr1[i])+`">`+ String.fromCharCode(arr1[i])+`</div>`;
     }
     firstLine.innerHTML = line1;
 
     for (let i = 0; i < arr2.length; i++) {
-        line2 += `<div class = "key">`+ String.fromCharCode(arr2[i])+`</div>`;
+        line2 += `<div class = "key" data = "`+String.fromCharCode(arr2[i])+`">`+ String.fromCharCode(arr2[i])+`</div>`;
     }
     secondLine.innerHTML = line2;
 
     for (let i = 0; i < arr3.length; i++) {
-        line3 += `<div class = "key">`+ String.fromCharCode(arr3[i])+`</div>`;
+        line3 += `<div class = "key" data = "`+String.fromCharCode(arr3[i])+`">`+ String.fromCharCode(arr3[i])+`</div>`;
     }
     thirdLine.innerHTML = line3;
 
     for (let i = 0; i < arr4.length; i++) {
-        line4 += `<div class = "key">`+ String.fromCharCode(arr4[i])+`</div>`;
+        line4 += `<div class = "key" data = "`+String.fromCharCode(arr4[i])+`">`+ String.fromCharCode(arr4[i])+`</div>`;
     }
     fourLine.innerHTML = line4;
 }
