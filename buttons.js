@@ -83,12 +83,6 @@ export const buttonsObj = {
         russianDefault: '⇦',
         russianUpperCase: '⇦'
     },
-    15: {
-        englishDefault: 'Tab',
-        englishUpperCase: 'Tab',
-        russianDefault: 'Tab',
-        russianUpperCase: 'Tab'
-    },
     16: {
         englishDefault: 'q',
         englishUpperCase: 'Q',

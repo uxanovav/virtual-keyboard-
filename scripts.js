@@ -1,6 +1,7 @@
 const inputArea = document.querySelector('#main-text-area');
 const keyboard = document.querySelector('.wrapper .keyboard');
-document.onkeydown = handle;
+inputArea.onkeydown = keyDown;
+inputArea.onkeyup = keyUp;
 
 import { buttonsObj } from "./buttons.js";
 
@@ -8,18 +9,6 @@ let keyboardFlag = false;
 let inputType = 'lowerEN';
 let shiftFlag = 'lower';
 let langFlag = 'EN';
-
-function handle(e) {
-    if (e.key === 'Backspace') {
-        let active = document.querySelector('.keyboard .key[data-key = "14"]');
-        active.classList.add('active')
-        setTimeout(changeColor, 100, active);
-    }
-}
-
-function changeColor(elemet) {
-    elemet.classList.remove('active');
-}
 
 let showKeyboard = () => {
     if (keyboardFlag === false) {
@@ -102,6 +91,13 @@ const buildKeyboard = () => {
             if (btn.dataset.key == '14') {
                 let value = inputArea.value;
                 inputArea.value = value.substring(0, value.length - 1);
+                inputArea.focus();
+            } else if (btn.dataset.key == "54") {
+                inputArea.value += ' ';
+                inputArea.focus();
+            } else if (btn.dataset.key == "41") {
+                inputArea.value += '\n';
+                inputArea.focus();
             } else if ( btn.dataset.key != '29' && btn.dataset.key != '41' && btn.dataset.key != '42' && btn.dataset.key != '53' && btn.dataset.key != '55'){
                 inputArea.value += btn.innerHTML;
                 inputArea.focus();
@@ -111,6 +107,8 @@ const buildKeyboard = () => {
 
 }
 
+
+
 const initializeKeyboard = () => {
     checkInputType(shiftFlag, langFlag);
     buildKeyboard();
@@ -118,6 +116,40 @@ const initializeKeyboard = () => {
 
 initializeKeyboard();
 
+
+function keyDown(e) {
+    let button = document.querySelectorAll('.key');
+    button.forEach(btn => {
+        if (btn.innerHTML === e.key && e.key !== 'Shift') {
+            if (e.key === 'CapsLock') {
+                btn.click();           
+            }
+            btn.classList.add('active')
+            setTimeout(changeColor, 100, btn);
+        } else if (e.key === 'Backspace') {
+            let active = document.querySelector('.keyboard .key[data-key = "14"]');
+            active.classList.add('active')
+            setTimeout(changeColor, 100, active);
+        } else if (e.key === ' ') {
+            let active = document.querySelector('.keyboard .key[data-key = "54"]');
+            active.classList.add('active')
+            setTimeout(changeColor, 100, active);
+        } else if (e.key === 'Shift') {
+            let active = document.querySelector('.keyboard .key[data-key = "42"]');
+            active.classList.add('active')
+        }
+        inputArea.focus();
+    })
+}
+function keyUp(e) {
+    if (e.key === 'Shift') {
+        let active = document.querySelector('.keyboard .key[data-key = "42"]');
+        setTimeout(changeColor, 1, active);
+    }
+}
+function changeColor(elemet) {
+    elemet.classList.remove('active');
+}
 
 
 
