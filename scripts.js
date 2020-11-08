@@ -1,121 +1,159 @@
 const inputArea = document.querySelector('#main-text-area');
 const keyboard = document.querySelector('.wrapper .keyboard');
-const firstLine = document.querySelector('.first-line');
-const secondLine = document.querySelector('.second-line');
-const thirdLine = document.querySelector('.third-line');
-const fourLine = document.querySelector('.four-line');
-document.onkeydown = handle;
+document.onkeydown = keyDown;
+document.onkeyup = keyUp;
 
+import { buttonsObj } from "./buttons.js";
 
-let capsFlag = false;
 let keyboardFlag = false;
+let inputType = 'lowerEN';
+let shiftFlag = 'lower';
+let langFlag = 'EN';
 
-
-function handle(e) {
-    console.log(e.key);
-    if (e.key === 'Backspace') {
-        let active = document.querySelector('.keyboard .key[data-key = "bckspc"]');
-        active.classList.add('active')
-        setTimeout(changeColor, 100, active);
+let showKeyboard = () => {
+    if (keyboardFlag === false) {
+        keyboard.style.height = '50%';
+        keyboard.style.display = 'flex';
+        keyboard.style.flexWrap = 'wrap';
+        keyboardFlag = !keyboardFlag;
+        initializeKeyboard();
+    } else {
+        keyboard.style.display = 'none';
+        keyboardFlag = !keyboardFlag;
     }
-    if (e.key === 'CapsLock') {
-        let active = document.querySelector('.keyboard .key[data-key = "caps"]');
-        if (capsFlag === false) {
-            capsIcon.classList.add('on');
-            active.classList.add('active')
-            setTimeout(changeColor, 100, active);
-            capsFlag = true;
-        } else {
-            capsIcon.classList.remove('on');
-            active.classList.add('active')
-            setTimeout(changeColor, 100, active);
-            capsFlag = false;
+}
+
+inputArea.addEventListener('dblclick', showKeyboard)
+
+const checkInputType = (shiftFlag, langFlag) => {
+    inputType = shiftFlag + langFlag;
+}
+
+const langSwitch = () => {
+    if (langFlag === 'EN') {
+        langFlag = 'RU';
+    } else {
+        langFlag = 'EN'
+    }
+    initializeKeyboard();
+}
+
+const shiftSwitch = () => {
+    if (shiftFlag === 'lower') {
+        shiftFlag = 'upper';
+    } else {
+        shiftFlag = 'lower';
+    }
+    initializeKeyboard();
+}
+
+
+const buildKeyboard = () => {
+    keyboard.innerHTML = '';
+    for (let el in buttonsObj) {
+        if (el === '42') {
+            keyboard.innerHTML += `<div class = "key" id = "shift-key" data-key = "` + el + `">` + buttonsObj[el].englishDefault + `</div>`;
+            continue;
+        }
+        if (inputType === 'lowerEN') {
+            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].englishDefault + `</div>`;
+        }
+        if (inputType === 'upperEN') {
+            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].englishUpperCase + `</div>`;
+        }
+        if (inputType === 'lowerRU') {
+            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].russianDefault + `</div>`;
+        }
+        if (inputType === 'upperRU') {
+            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].russianUpperCase + `</div>`;
+        }
+        if (el === '14' || el === '28' || el === '41' || el === '52') {
+            keyboard.innerHTML += '<div class = "break"></div>';
         }
     }
-    inputArea.focus();
+    let capsLockKey = document.querySelector('.keyboard .key[data-key = "29"]');
+    let enterKey = document.querySelector('.keyboard .key[data-key = "41"]');
+    let shiftKey = document.querySelector('.keyboard .key[data-key = "42"]');
+    let langKey = document.querySelector('.keyboard .key[data-key = "53"]');
+    let spaceKey = document.querySelector('.keyboard .key[data-key = "54"]');
+    let hideKey = document.querySelector('.keyboard .key[data-key = "55"]');
+    let button = document.querySelectorAll('.key');
+
+    capsLockKey.style.width = "100px";
+    enterKey.style.width = "70px";
+    shiftKey.style.width = "100px";
+    spaceKey.style.width = "30%";
+
+    langKey.addEventListener('click', langSwitch);
+    capsLockKey.addEventListener('click', shiftSwitch);
+    shiftKey.addEventListener('mousedown', shiftSwitch);
+    shiftKey.addEventListener('mouseup', shiftSwitch);
+    hideKey.addEventListener('click', showKeyboard);
+
+    button.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.dataset.key == '14') {
+                let value = inputArea.value;
+                inputArea.value = value.substring(0, value.length - 1);
+                inputArea.focus();
+            } else if (btn.dataset.key == "54") {
+                inputArea.value += ' ';
+                inputArea.focus();
+            } else if (btn.dataset.key == "41") {
+                inputArea.value += '\n';
+                inputArea.focus();
+            } else if ( btn.dataset.key != '29' && btn.dataset.key != '41' && btn.dataset.key != '42' && btn.dataset.key != '53' && btn.dataset.key != '55'){
+                inputArea.value += btn.innerHTML;
+                inputArea.focus();
+            }
+        })
+    });
+
 }
 
-const arr1 = [96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61];
-const arr2 = [113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 92];
-const arr3 = [97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39];
-const arr4 = [122, 120, 99, 118, 98, 110, 109, 44, 46, 47];
 
-function init() {
-    let line1 = '';
-    let line2 = '';
-    let line3 = '';
-    let line4 = '';
-    for (let i = 0; i < arr1.length; i++) {
-        line1 += `<div class = "key" data = "` + arr1[i] + `">` + String.fromCharCode(arr1[i]) + `</div>`;
-    }
-    firstLine.innerHTML = line1 + `<div class = "key" data-key = "bckspc">⇦</div>`;
 
-    for (let i = 0; i < arr2.length; i++) {
-        line2 += `<div class = "key" data = "` + arr2[i] + `">` + String.fromCharCode(arr2[i]) + `</div>`;
-    }
-    secondLine.innerHTML = line2;
-
-    for (let i = 0; i < arr3.length; i++) {
-        line3 += `<div class = "key" data = "` + arr3[i] + `">` + String.fromCharCode(arr3[i]) + `</div>`;
-    }
-    thirdLine.innerHTML = `<div class = "key caps" data-key = "caps">Caps Lock <span class='caps-icon'>▲</span></div>` + line3;
-
-    for (let i = 0; i < arr4.length; i++) {
-        line4 += `<div class = "key" data = "` + arr4[i] + `">` + String.fromCharCode(arr4[i]) + `</div>`;
-    }
-    fourLine.innerHTML = line4;
+const initializeKeyboard = () => {
+    checkInputType(shiftFlag, langFlag);
+    buildKeyboard();
 }
 
-init();
+initializeKeyboard();
 
-let button = document.querySelectorAll('.key');
-const capsIcon = document.querySelector('.keyboard .key .caps-icon');
-console.log(button);
 
-inputArea.addEventListener('dblclick', showKeyboard);
-
-document.onkeypress = function (event) {
-    let active = document.querySelector('.keyboard .key[data = "' + event.charCode + '"]');
-    active.classList.add('active')
-    setTimeout(changeColor, 100, active);
+function keyDown(e) {
+    let button = document.querySelectorAll('.key');
+    let shiftButton = document.querySelector('#shift-key');
+    button.forEach(btn => {
+        if (btn.innerHTML === e.key && e.key !== 'Shift') {
+            if (e.key === 'CapsLock') {
+                btn.click();           
+            }
+            btn.classList.add('active')
+            setTimeout(changeColor, 100, btn);
+        } else if (e.key === 'Backspace') {
+            let active = document.querySelector('.keyboard .key[data-key = "14"]');
+            active.classList.add('active')
+            setTimeout(changeColor, 100, active);
+        } else if (e.key === ' ') {
+            let active = document.querySelector('.keyboard .key[data-key = "54"]');
+            active.classList.add('active')
+            setTimeout(changeColor, 100, active);
+        }
+        inputArea.focus();
+    })
+    if (e.key === 'Shift') {
+        shiftButton.classList.add('active')
+        shiftSwitch();
+    }
 }
-
+function keyUp(e) {
+    if (e.key === 'Shift') {
+        let active = document.querySelector('.keyboard .key[data-key = "42"]');
+        setTimeout(changeColor, 1, active);
+        shiftSwitch();
+    }
+}
 function changeColor(elemet) {
     elemet.classList.remove('active');
 }
-
-function showKeyboard() {
-    if (keyboardFlag === false) {
-        keyboard.style.height = '50%';
-        keyboard.style.display = 'block';
-        keyboardFlag = true;
-    } else {
-        keyboard.style.height = '0';
-        keyboard.style.display = 'none';
-        keyboardFlag = false;
-    }
-}
-
-button.forEach(btn => {
-    btn.addEventListener('click', () => {
-        if (btn.dataset.key == "bckspc") {
-            let value = inputArea.value;
-            inputArea.value = value.substring(0, value.length - 1);
-        } else if (btn.dataset.key == "caps") {
-            console.log('oncaps press')
-            if (capsFlag == false) {
-                capsIcon.classList.add('on');
-                capsFlag = true;
-            } else {
-                capsIcon.classList.remove('on');
-                capsFlag = false;
-            }
-        } else {
-            inputArea.value += btn.innerHTML;
-            inputArea.focus();
-        }
-    })
-});
-
-
-
