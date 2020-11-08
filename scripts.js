@@ -1,15 +1,62 @@
 const inputArea = document.querySelector('#main-text-area');
 const keyboard = document.querySelector('.wrapper .keyboard');
-const firstLine = document.querySelector('.first-line');
-const secondLine = document.querySelector('.second-line');
-const thirdLine = document.querySelector('.third-line');
-const fourLine = document.querySelector('.four-line');
+
+import {buttonsObj} from "./buttons.js";
+
+let keyboardFlag = false;
+let inputType = 'lowerEN';
+let shiftFlag = 'lower';
+let langFlag = 'EN';
+
+let showKeyboard = () => {
+    if (keyboardFlag === false) {
+        keyboard.style.height = '50%';
+        keyboard.style.display = 'flex';
+        keyboard.style.flexWrap = 'wrap';
+        keyboardFlag = true;
+        initializeKeyboard();
+    }
+}
+
+inputArea.addEventListener('dblclick',showKeyboard)
+
+const checkInputType  = (shiftFlag, langFlag) => {
+    inputType = shiftFlag + langFlag;
+}
+
+const buildKeyboard = () => {
+    keyboard.innerHTML = '';
+    for (let el in buttonsObj){
+        if (inputType === 'lowerEN'){
+            console.log(buttonsObj[el].englishDefault);
+            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].englishDefault + `</div>`;
+        }
+        if (inputType === 'upperEN'){
+            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].enlishUpperCase + `</div>`;
+        }
+        if (inputType === 'lowerRU'){
+            console.log(buttonsObj[el].russianDefault);
+            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].russianDefault + `</div>`;
+        }
+        if (inputType === 'upperRU'){
+            console.log(buttonsObj[el].russianUpperCase);
+            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].russianUpperCase + `</div>`;
+        }
+    }
+}
+
+const initializeKeyboard = () => {
+    checkInputType(shiftFlag,langFlag);
+    buildKeyboard();
+} 
+
+
+/* 
 document.onkeydown = handle;
 
 
 let capsFlag = false;
 let keyboardFlag = false;
-
 
 function handle(e) {
     console.log(e.key);
@@ -33,9 +80,8 @@ function handle(e) {
         }
     }
     inputArea.focus();
-}
-
-const arr1 = [96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61];
+} */
+/* const arr1 = [96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61];
 const arr2 = [113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 92];
 const arr3 = [97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39];
 const arr4 = [122, 120, 99, 118, 98, 110, 109, 44, 46, 47];
@@ -116,6 +162,6 @@ button.forEach(btn => {
         }
     })
 });
-
+ */
 
 
