@@ -1,7 +1,7 @@
 const inputArea = document.querySelector('#main-text-area');
 const keyboard = document.querySelector('.wrapper .keyboard');
-inputArea.onkeydown = keyDown;
-inputArea.onkeyup = keyUp;
+document.onkeydown = keyDown;
+document.onkeyup = keyUp;
 
 import { buttonsObj } from "./buttons.js";
 
@@ -51,6 +51,10 @@ const shiftSwitch = () => {
 const buildKeyboard = () => {
     keyboard.innerHTML = '';
     for (let el in buttonsObj) {
+        if (el === '42') {
+            keyboard.innerHTML += `<div class = "key" id = "shift-key" data-key = "` + el + `">` + buttonsObj[el].englishDefault + `</div>`;
+            continue;
+        }
         if (inputType === 'lowerEN') {
             keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].englishDefault + `</div>`;
         }
@@ -119,6 +123,7 @@ initializeKeyboard();
 
 function keyDown(e) {
     let button = document.querySelectorAll('.key');
+    let shiftButton = document.querySelector('#shift-key');
     button.forEach(btn => {
         if (btn.innerHTML === e.key && e.key !== 'Shift') {
             if (e.key === 'CapsLock') {
@@ -134,104 +139,21 @@ function keyDown(e) {
             let active = document.querySelector('.keyboard .key[data-key = "54"]');
             active.classList.add('active')
             setTimeout(changeColor, 100, active);
-        } else if (e.key === 'Shift') {
-            let active = document.querySelector('.keyboard .key[data-key = "42"]');
-            active.classList.add('active')
         }
         inputArea.focus();
     })
+    if (e.key === 'Shift') {
+        shiftButton.classList.add('active')
+        shiftSwitch();
+    }
 }
 function keyUp(e) {
     if (e.key === 'Shift') {
         let active = document.querySelector('.keyboard .key[data-key = "42"]');
         setTimeout(changeColor, 1, active);
+        shiftSwitch();
     }
 }
 function changeColor(elemet) {
     elemet.classList.remove('active');
 }
-
-
-
-
-/*
-document.onkeydown = handle;
-
-
-let capsFlag = false;
-let keyboardFlag = false;
-
-function handle(e) {
-    console.log(e.key);
-    if (e.key === 'Backspace') {
-        let active = document.querySelector('.keyboard .key[data-key = "bckspc"]');
-        active.classList.add('active')
-        setTimeout(changeColor, 100, active);
-    }
-    if (e.key === 'CapsLock') {
-        let active = document.querySelector('.keyboard .key[data-key = "caps"]');
-        if (capsFlag === false) {
-            capsIcon.classList.add('on');
-            active.classList.add('active')
-            setTimeout(changeColor, 100, active);
-            capsFlag = true;
-        } else {
-            capsIcon.classList.remove('on');
-            active.classList.add('active')
-            setTimeout(changeColor, 100, active);
-            capsFlag = false;
-        }
-    }
-    inputArea.focus();
-}
-
-let button = document.querySelectorAll('.key');
-const capsIcon = document.querySelector('.keyboard .key .caps-icon');
-
-inputArea.addEventListener('dblclick', showKeyboard);
-
-document.onkeypress = function (event) {
-    let active = document.querySelector('.keyboard .key[data = "' + event.charCode + '"]');
-    active.classList.add('active')
-    setTimeout(changeColor, 100, active);
-}
-
-function changeColor(elemet) {
-    elemet.classList.remove('active');
-}
-
-function showKeyboard() {
-    if (keyboardFlag === false) {
-        keyboard.style.height = '50%';
-        keyboard.style.display = 'block';
-        keyboardFlag = true;
-    } else {
-        keyboard.style.height = '0';
-        keyboard.style.display = 'none';
-        keyboardFlag = false;
-    }
-}
-
-button.forEach(btn => {
-    btn.addEventListener('click', () => {
-        if (btn.dataset.key == "bckspc") {
-            let value = inputArea.value;
-            inputArea.value = value.substring(0, value.length - 1);
-        } else if (btn.dataset.key == "caps") {
-            console.log('oncaps press')
-            if (capsFlag == false) {
-                capsIcon.classList.add('on');
-                capsFlag = true;
-            } else {
-                capsIcon.classList.remove('on');
-                capsFlag = false;
-            }
-        } else {
-            inputArea.value += btn.innerHTML;
-            inputArea.focus();
-        }
-    })
-});
- */
-
-
