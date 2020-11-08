@@ -15,10 +15,12 @@ let showKeyboard = () => {
         keyboard.style.height = '50%';
         keyboard.style.display = 'flex';
         keyboard.style.flexWrap = 'wrap';
+        keyboard.style.opacity = '1';
         keyboardFlag = !keyboardFlag;
         initializeKeyboard();
     } else {
-        keyboard.style.display = 'none';
+        keyboard.style.height = '0';
+        keyboard.style.opacity = '0';
         keyboardFlag = !keyboardFlag;
     }
 }

@@ -1,11 +1,46 @@
+body {
+  background: rgba(212, 228, 239, 1);
+  background: -moz-linear-gradient(
+    left,
+    rgba(212, 228, 239, 1) 0%,
+    rgba(134, 174, 204, 1) 100%
+  );
+  background: -webkit-gradient(
+    left top,
+    right top,
+    color-stop(0%, rgba(212, 228, 239, 1)),
+    color-stop(100%, rgba(134, 174, 204, 1))
+  );
+  background: -webkit-linear-gradient(
+    left,
+    rgba(212, 228, 239, 1) 0%,
+    rgba(134, 174, 204, 1) 100%
+  );
+  background: -o-linear-gradient(
+    left,
+    rgba(212, 228, 239, 1) 0%,
+    rgba(134, 174, 204, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    left,
+    rgba(212, 228, 239, 1) 0%,
+    rgba(134, 174, 204, 1) 100%
+  );
+  background: linear-gradient(
+    to right,
+    rgba(212, 228, 239, 1) 0%,
+    rgba(134, 174, 204, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc', GradientType=1 );
+}
 .wrapper {
   margin: 0 auto;
   width: 1280px;
   height: 100%;
-  border: 1px red solid;
 }
 
 #main-text-area {
+  font-size: 24px;
   margin-top: 5%;
   margin-left: 5%;
   width: 90%;
@@ -17,32 +52,40 @@
   width: 100%;
   height: 0;
   justify-content: center;
-  background-color: rebeccapurple;
-  border: 1px red solid;
-  display: none;
-  transition: 1s linear;
+  display: flex;
+  opacity: 0;
+  transition: 0.5s ease;
 }
 
 .key {
+  color: rgb(250, 250, 250);
   text-align: center;
   width: 50px;
   height: 50px;
-  background-color: rosybrown;
+  background-color: rgb(110, 84, 84);
+  font-weight: 500;
   font-size: 24px;
   margin: 5px;
   padding: 5px;
+  text-shadow: rgb(22, 21, 21);
+  box-shadow: 10px 10px 10px -13px rgba(0, 0, 0, 0.75);
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .key:active {
-  background-color: rgb(129, 91, 91);
+  background-color: rgb(56, 40, 40);
+  transform: scale(1.1);
+  box-shadow: 10px 10px 29px -13px rgba(0, 0, 0, 0.75);
 }
 
 .break {
-    flex-basis: 100%;
-    height: 0;
-  }
+  flex-basis: 100%;
+  height: 0;
+}
 
-  .active {
-    background-color: rgb(129, 91, 91);
-  }
+.active {
+  background-color: rgb(56, 40, 40);
+  transform: scale(1.1);
+  box-shadow: 10px 10px 29px -13px rgba(0, 0, 0, 0.75);
+}
