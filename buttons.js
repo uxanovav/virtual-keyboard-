@@ -313,9 +313,9 @@ export const buttonsObj = {
     },
     53: {
         englishDefault: 'en',
-        englishUpperCase: 'EN',
+        englishUpperCase: 'en',
         russianDefault: 'ru',
-        russianUpperCase: 'RU'
+        russianUpperCase: 'ru'
     },
     54: {
         englishDefault: 'space',
@@ -324,9 +324,9 @@ export const buttonsObj = {
         russianUpperCase: 'space'
     },
     55: {
-        englishDefault: 'hide',
-        englishUpperCase: 'hide',
-        russianDefault: 'скрыть',
-        russianUpperCase: 'скрыть'
+        englishDefault: '^',
+        englishUpperCase: '^',
+        russianDefault: '^',
+        russianUpperCase: '^'
     },   
 }

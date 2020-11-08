@@ -1,7 +1,7 @@
 const inputArea = document.querySelector('#main-text-area');
 const keyboard = document.querySelector('.wrapper .keyboard');
 
-import {buttonsObj} from "./buttons.js";
+import { buttonsObj } from "./buttons.js";
 
 let keyboardFlag = false;
 let inputType = 'lowerEN';
@@ -13,45 +13,100 @@ let showKeyboard = () => {
         keyboard.style.height = '50%';
         keyboard.style.display = 'flex';
         keyboard.style.flexWrap = 'wrap';
-        keyboardFlag = true;
+        keyboardFlag = !keyboardFlag;
         initializeKeyboard();
+    } else {
+        keyboard.style.display = 'none';
+        keyboardFlag = !keyboardFlag;
     }
 }
 
-inputArea.addEventListener('dblclick',showKeyboard)
+inputArea.addEventListener('dblclick', showKeyboard)
 
-const checkInputType  = (shiftFlag, langFlag) => {
+const checkInputType = (shiftFlag, langFlag) => {
     inputType = shiftFlag + langFlag;
 }
 
+const langSwitch = () => {
+    if (langFlag === 'EN') {
+        langFlag = 'RU';
+    } else {
+        langFlag = 'EN'
+    }
+    initializeKeyboard();
+}
+
+const shiftSwitch = () => {
+    if (shiftFlag === 'lower') {
+        shiftFlag = 'upper';
+    } else {
+        shiftFlag = 'lower';
+    }
+    initializeKeyboard();
+}
+
+
 const buildKeyboard = () => {
     keyboard.innerHTML = '';
-    for (let el in buttonsObj){
-        if (inputType === 'lowerEN'){
-            console.log(buttonsObj[el].englishDefault);
+    for (let el in buttonsObj) {
+        if (inputType === 'lowerEN') {
             keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].englishDefault + `</div>`;
         }
-        if (inputType === 'upperEN'){
-            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].enlishUpperCase + `</div>`;
+        if (inputType === 'upperEN') {
+            keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].englishUpperCase + `</div>`;
         }
-        if (inputType === 'lowerRU'){
-            console.log(buttonsObj[el].russianDefault);
+        if (inputType === 'lowerRU') {
             keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].russianDefault + `</div>`;
         }
-        if (inputType === 'upperRU'){
-            console.log(buttonsObj[el].russianUpperCase);
+        if (inputType === 'upperRU') {
             keyboard.innerHTML += `<div class = "key" data-key = "` + el + `">` + buttonsObj[el].russianUpperCase + `</div>`;
         }
+        if (el === '14' || el === '28' || el === '41' || el === '52') {
+            keyboard.innerHTML += '<div class = "break"></div>';
+        }
     }
+    let capsLockKey = document.querySelector('.keyboard .key[data-key = "29"]');
+    let enterKey = document.querySelector('.keyboard .key[data-key = "41"]');
+    let shiftKey = document.querySelector('.keyboard .key[data-key = "42"]');
+    let langKey = document.querySelector('.keyboard .key[data-key = "53"]');
+    let spaceKey = document.querySelector('.keyboard .key[data-key = "54"]');
+    let hideKey = document.querySelector('.keyboard .key[data-key = "55"]');
+    let button = document.querySelectorAll('.key');
+    capsLockKey.style.width = "100px";
+    enterKey.style.width = "70px";
+    shiftKey.style.width = "100px";
+    spaceKey.style.width = "30%";
+    langKey.addEventListener('click', langSwitch);
+    capsLockKey.addEventListener('click', shiftSwitch);
+    shiftKey.addEventListener('mousedown', shiftSwitch);
+    shiftKey.addEventListener('mouseup', shiftSwitch);
+    hideKey.addEventListener('click', showKeyboard);
+    button.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.dataset.key == "14") {
+                let value = inputArea.value;
+                inputArea.value = value.substring(0, value.length - 1);
+            } else {
+                inputArea.value += btn.innerHTML;
+                inputArea.focus();
+            }
+        })
+    });
+
 }
 
 const initializeKeyboard = () => {
-    checkInputType(shiftFlag,langFlag);
+    checkInputType(shiftFlag, langFlag);
     buildKeyboard();
-} 
+}
+
+initializeKeyboard();
 
 
-/* 
+
+
+
+/*
 document.onkeydown = handle;
 
 
@@ -80,43 +135,10 @@ function handle(e) {
         }
     }
     inputArea.focus();
-} */
-/* const arr1 = [96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61];
-const arr2 = [113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 92];
-const arr3 = [97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39];
-const arr4 = [122, 120, 99, 118, 98, 110, 109, 44, 46, 47];
-
-function init() {
-    let line1 = '';
-    let line2 = '';
-    let line3 = '';
-    let line4 = '';
-    for (let i = 0; i < arr1.length; i++) {
-        line1 += `<div class = "key" data = "` + arr1[i] + `">` + String.fromCharCode(arr1[i]) + `</div>`;
-    }
-    firstLine.innerHTML = line1 + `<div class = "key" data-key = "bckspc">⇦</div>`;
-
-    for (let i = 0; i < arr2.length; i++) {
-        line2 += `<div class = "key" data = "` + arr2[i] + `">` + String.fromCharCode(arr2[i]) + `</div>`;
-    }
-    secondLine.innerHTML = line2;
-
-    for (let i = 0; i < arr3.length; i++) {
-        line3 += `<div class = "key" data = "` + arr3[i] + `">` + String.fromCharCode(arr3[i]) + `</div>`;
-    }
-    thirdLine.innerHTML = `<div class = "key caps" data-key = "caps">Caps Lock <span class='caps-icon'>▲</span></div>` + line3;
-
-    for (let i = 0; i < arr4.length; i++) {
-        line4 += `<div class = "key" data = "` + arr4[i] + `">` + String.fromCharCode(arr4[i]) + `</div>`;
-    }
-    fourLine.innerHTML = line4;
 }
-
-init();
 
 let button = document.querySelectorAll('.key');
 const capsIcon = document.querySelector('.keyboard .key .caps-icon');
-console.log(button);
 
 inputArea.addEventListener('dblclick', showKeyboard);
 
